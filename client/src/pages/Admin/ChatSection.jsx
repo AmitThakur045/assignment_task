@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Sidebar from "../../Components/Sidebar";
 import Chat from "../../Components/Chat";
 
@@ -116,7 +116,8 @@ const ChatSection = () => {
       },
       {
         id: "9",
-        content: "hellowajgdbakbad cacaNkjbdicb ck iuc wd cuiw fbw cdchd vivcfkvgbkvbwfouvhefv efv oe vo ebov oef vfv8NNWEDCDKJWEC OWNCONEWLC OQWNCONEWCOD CBDW",
+        content:
+          "hellowajgdbakbad cacaNkjbdicb ck iuc wd cuiw fbw cdchd vivcfkvgbkvbwfouvhefv efv oe vo ebov oef vfv8NNWEDCDKJWEC OWNCONEWLC OQWNCONEWCOD CBDW",
         type: "ADMIN",
       },
       {
