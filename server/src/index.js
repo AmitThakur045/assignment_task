@@ -1,17 +1,19 @@
-const express = require("express");
 const dotenv = require("dotenv");
+dotenv.config({ path: "./src/config/config.env" });
+
+const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const http = require("http");
 const { Server } = require("socket.io");
+const userRoutes = require("./routes/user.routes");
+const adminRoutes = require("./routes/admin.routes");
 
 const app = express();
 const PORT = process.env.PORT;
 
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-
-dotenv.config({ path: "./src/config/config.env" });
 
 app.use(function (req, res, next) {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -29,6 +31,9 @@ app.use(function (req, res, next) {
 });
 
 // routing
+app.use("/api/user", userRoutes);
+app.use("/api/admin", adminRoutes);
+
 app.get("/", (req, res) => {
   res.send("Branch International API");
 });
