@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Input from "../../Utils/Input";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -9,11 +10,26 @@ const Register = () => {
 
   const navigate = useNavigate();
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    // create an api request to register the user
-    // navigate to login section
-    navigate("/admin/login")
+
+    if (!email || !password || !name) {
+      alert("Please enter all fields");
+      return;
+    }
+
+    const res = await axios.post(
+      `${import.meta.env.VITE_BACKEND_BASE}/api/admin/signup`,
+      {
+        name,
+        email,
+        password,
+      }
+    );
+
+    if (res?.data) {
+      navigate("/admin/login");
+    }
   }
 
   return (

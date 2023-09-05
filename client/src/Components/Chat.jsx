@@ -24,7 +24,7 @@ const Chat = ({ chat }) => {
                 message.type === "ADMIN"
                   ? "bg-[#456c67] ml-auto"
                   : "bg-[#eb8a30] mr-auto"
-              } w-fit max-w-sm p-2 rounded-md my-1`}
+              } w-fit max-w-sm p-2 rounded-md text-white my-1`}
               key={message.id}
             >
               {message.content}
