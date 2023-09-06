@@ -15,12 +15,12 @@ const userSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
-    ChatId: {
+    chatId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Chat",
       require: true,
     },
-    AdminAssigned: {
+    adminAssigned: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Admin",
       require: true,

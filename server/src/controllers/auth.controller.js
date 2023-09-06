@@ -1,8 +1,10 @@
 const User = require("../models/user.model");
 const Token = require("../models/token.model");
 const Admin = require("../models/admin.model");
+const Chat = require("../models/chat.model");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const redisClient = require("../services/redis");
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -20,14 +22,15 @@ const userLogin = async (req, res) => {
 
     const user = await User.findOne({ email });
     let flag = await bcrypt.compare(password, user.password);
-    console.log("user", user, flag);
 
     if (user && flag) {
+      // send a new response with chatId and adminid in it
       return res.status(200).json({
         _id: user._id,
         name: user.name,
         email: user.email,
-        isAdmin: user.isAdmin,
+        chatId: user.chatId,
+        adminAssigned: user.adminAssigned,
         token: generateToken(user._id),
       });
     } else {
@@ -67,7 +70,38 @@ const userSignup = async (req, res) => {
       token: generatedToken,
     });
 
+    // if user successfully created
     if (user) {
+      // finding the admin with lowest user count
+      const assignedAdminId = await redisClient.zrange(
+        "userAssigned:Admin",
+        0,
+        0
+      );
+
+      // create a new chat for the user
+      const chat = await Chat.create({
+        chatName: user.name,
+        admin: assignedAdminId,
+        client: user._id,
+      });
+
+      // update the client list of admin
+      await Admin.findByIdAndUpdate(assignedAdminId, {
+        $push: { userList: user._id },
+      });
+
+      // adding the chat Id and admin id to the user model
+      await User.findByIdAndUpdate(user._id, {
+        $set: {
+          chatId: chat._id,
+          adminAssigned: assignedAdminId,
+        },
+      });
+
+      // update the count of assignedAdmin's user list count
+      await redisClient.zincrby("userAssigned:Admin", 1, assignedAdminId);
+
       return res.status(200).json({
         _id: user._id,
         name: user.name,
@@ -92,19 +126,15 @@ const adminLogin = async (req, res) => {
     if (!email || !password) {
       res.status(402).json({ message: "please fill all the fields" });
     }
-    console.log(req.body);
-    const admin = await Admin.findOne({ email });
-    console.log("admin", admin);
+    const admin = await Admin.findOne({ email }).populate("userList");
     let flag = await bcrypt.compare(password, admin.password);
-
-    console.log("flag", flag);
 
     if (admin && flag) {
       return res.status(200).json({
         _id: admin._id,
         name: admin.name,
         email: admin.email,
-        isAdmin: admin.isAdmin,
+        userList: admin.userList,
         token: generateToken(admin._id),
       });
     } else {
@@ -145,6 +175,7 @@ const adminSignup = async (req, res) => {
 
     if (admin) {
       // add user to priority queue with the no of clients (user, 0)
+      await redisClient.zadd("userAssigned:Admin", 0, admin._id);
 
       return res.status(200).json({
         _id: admin._id,

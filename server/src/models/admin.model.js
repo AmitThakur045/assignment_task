@@ -15,7 +15,7 @@ const adminSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
-    UserList: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    userList: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },
   {
     timestamps: true,

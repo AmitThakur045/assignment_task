@@ -8,6 +8,7 @@ const http = require("http");
 const { Server } = require("socket.io");
 const userRoutes = require("./routes/user.routes");
 const adminRoutes = require("./routes/admin.routes");
+const redisClient = require("./services/redis");
 
 const app = express();
 const PORT = process.env.PORT;
