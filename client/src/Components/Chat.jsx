@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { ACTIONS } from "../Utils/Actions";
 import { v4 as uuid } from "uuid";
-import SingleChat from "./SingleChat";
 
 const Chat = ({
   messageListRef,
@@ -11,6 +10,7 @@ const Chat = ({
   messageList,
   setMessageList,
   socketRef,
+  chatName,
   chatId,
 }) => {
   const [message, setMessage] = useState("");
@@ -24,7 +24,7 @@ const Chat = ({
       type: "ADMIN",
     };
     messageListRef.current?.messageList.push(obj);
-    setMessageList(messageListRef.current);
+    setMessageList((prev) => [...prev, obj]);
 
     socketRef.current.emit(ACTIONS.ADMIN_SENT_MESSAGE, {
       message,
@@ -41,18 +41,18 @@ const Chat = ({
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messageListRef]);
 
-  if (!messageListRef.current) return;
+  if (!messageList) return;
 
-  console.log("chatname", messageListRef.current);
+  // console.log("chatname", messageListRef.current);
 
   return (
     <div className="w-full h-screen overflow-hidden">
       <h2 className="w-full bg-black/30 p-2 h-[4.5rem] text-zinc-300 font-semibold text-xl flex items-center justify-center ">
-        {messageList?.chatName}
+        {chatName}
       </h2>
       <div className="relative h-[90vh] border-2 border-white flex flex-col justify-center">
         <div className="absolute top-0 bg-[#2a3e3b] w-full pb-[5rem] p-2 h-[90vh] overflow-y-scroll">
-          {messageList?.messageList?.map((message) => (
+          {messageList?.map((message) => (
             <h2
               className={`${
                 message.type === "ADMIN"

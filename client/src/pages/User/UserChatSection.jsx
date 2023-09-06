@@ -7,76 +7,6 @@ import { ACTIONS } from "../../Utils/Actions";
 import { initSocket } from "../../Utils/socket";
 import SingleChat from "../../Components/SingleChat";
 
-const chat = {
-  chatId: "123456y2h",
-  chatName: "userName",
-  client: "qyhjbanksds",
-  admin: "ainkjn,ads",
-  messages: [
-    {
-      id: "1",
-      content: "hellow",
-      type: "USER",
-    },
-    {
-      id: "2",
-      content: "hellowwcknc",
-      type: "USER",
-    },
-    {
-      id: "3",
-      content: "hellow",
-      type: "ADMIN",
-    },
-    {
-      id: "4",
-      content: "hellow edomwxp iwnixq",
-      type: "USER",
-    },
-    {
-      id: "5",
-      content: "hellow ASLHNIOXBW",
-      type: "ADMIN",
-    },
-    {
-      id: "6",
-      content: "hellow ajgbax sx xkKSAXx akxaxb ka",
-      type: "USER",
-    },
-    {
-      id: "7",
-      content: "hellowajgdbakbad",
-      type: "ADMIN",
-    },
-    {
-      id: "8",
-      content: "hellowajgdbakbad",
-      type: "USER",
-    },
-    {
-      id: "9",
-      content:
-        "hellowajgdbakbad cacaNkjbdicb ck iuc wd cuiw fbw cdchd vivcfkvgbkvbwfouvhefv efv oe vo ebov oef vfv8NNWEDCDKJWEC OWNCONEWLC OQWNCONEWCOD CBDW",
-      type: "ADMIN",
-    },
-    {
-      id: "10",
-      content: "hellowajgdbakbad",
-      type: "ADMIN",
-    },
-    {
-      id: "11",
-      content: "hellowajgdbakbad",
-      type: "USER",
-    },
-    {
-      id: "12",
-      content: "hellowajgdbakbad",
-      type: "USER",
-    },
-  ],
-};
-
 const UserChatSection = () => {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(true);
@@ -140,7 +70,6 @@ const UserChatSection = () => {
         function handleErrors(err) {
           console.log(err);
           console.log("Socket connection failed, try again later.");
-          // navigate("/");
         }
 
         socketRef.current.emit(ACTIONS.JOIN, {
@@ -156,13 +85,8 @@ const UserChatSection = () => {
               content: message,
               type: type,
             };
-            const newMessage = messageList;
-            newMessage.push(obj);
-            setMessageList(newMessage);
 
-            // var newdoc = document.createElement("div");
-            // newdoc.innerHTML = message;
-            // document.getElementById("box").appendChild(newdoc);
+            setMessageList((prev) => [...prev, obj]);
           }
         );
       };
