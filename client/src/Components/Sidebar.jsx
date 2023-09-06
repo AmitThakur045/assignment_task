@@ -8,8 +8,9 @@ const Sidebar = ({ data, selectedChat, setSelectedChat }) => {
       </div>
       <div className="flex flex-col items-center gap-2 h-full overflow-hidden">
         <h2>User List</h2>
+
         <ul className="h-[90vh] overflow-y-scroll w-full bg-black/30">
-          {data.map((user) => (
+          {data?.map((user) => (
             <li
               key={user.id}
               onClick={() => setSelectedChat(user.chatId)}

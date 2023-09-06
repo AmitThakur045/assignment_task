@@ -20,7 +20,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <Route path="/admin" element={<ChatSection />} />
       <Route path="/user/register" element={<UserRegister />} />
       <Route path="/user/login" element={<UserLogin />} />
-      <Route path="/user" element={<UserChatSection />} />
+      <Route path="/user/:chatId" element={<UserChatSection />} />
     </Routes>
   </Router>
   // </React.StrictMode>

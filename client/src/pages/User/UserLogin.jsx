@@ -25,8 +25,9 @@ const UserLogin = () => {
     );
 
     localStorage.setItem("user", JSON.stringify(res.data));
-    navigate("/user");
+    navigate(`/user/${res.data.chatId}`);
   }
+  
   return (
     <div className="bg-[#5d9e96] h-screen w-full flex flex-col items-center justify-center gap-3 text-zinc-300">
       <h2 className="font-bold text-lg">User Login</h2>
