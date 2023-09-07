@@ -43,8 +43,6 @@ const Chat = ({
 
   if (!messageList) return;
 
-  // console.log("chatname", messageListRef.current);
-
   return (
     <div className="w-full h-screen overflow-hidden">
       <h2 className="w-full bg-black/30 p-2 h-[4.5rem] text-zinc-300 font-semibold text-xl flex items-center justify-center ">

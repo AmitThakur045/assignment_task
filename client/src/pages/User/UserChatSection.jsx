@@ -104,14 +104,12 @@ const UserChatSection = () => {
   useEffect(() => {
     console.log("Scroll");
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [chat]);
-
-  console.log("user", messageList);
+  }, [messageList]);
 
   return (
     <div className="bg-[#5d9e96] h-screen w-full flex flex-col">
       <h2 className="w-full bg-black/30 p-2 h-[4.5rem] text-zinc-300 font-semibold text-xl flex items-center justify-center ">
-        Admin
+        Ask Admin
       </h2>
       <div className="relative h-[90vh] border-2 border-white flex overflow-hidden flex-col justify-center">
         <SingleChat messageList={messageList} bottomRef={bottomRef} />

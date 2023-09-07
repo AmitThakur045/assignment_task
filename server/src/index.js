@@ -5,12 +5,13 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const http = require("http");
-// const socketio = require("socket.io");
 const userRoutes = require("./routes/user.routes");
 const adminRoutes = require("./routes/admin.routes");
 const chatRoutes = require("./routes/chat.routes");
 const { ACTIONS } = require("./services/Actions");
 const { Server } = require("socket.io");
+const Message = require("./models/message.model");
+const Chat = require("./models/chat.model");
 
 const app = express();
 const PORT = process.env.PORT;
@@ -62,20 +63,44 @@ io.on("connect", (socket) => {
     console.log(`${userId} joined ${chatId}`);
   });
 
-  socket.on(ACTIONS.CLIENT_SENT_MESSAGE, ({ message, chatId, type }) => {
+  socket.on(ACTIONS.CLIENT_SENT_MESSAGE, async ({ message, chatId, type }) => {
     const clientId = userSocketMap[socket.id];
     console.log("Client ", clientId, " Sent Message to Chat: ", chatId);
 
     // add the given message to message DB abd chat DB
+    const newMessage = await Message.create({
+      content: message,
+      type: type,
+    });
+
+    if (message) {
+      const chat = await Chat.findByIdAndUpdate(chatId, {
+        $push: {
+          messageList: newMessage._id,
+        },
+      });
+    }
 
     socket.to(chatId).emit(ACTIONS.ADMIN_RECIEVE_MESSAGE, { message, type });
   });
 
-  socket.on(ACTIONS.ADMIN_SENT_MESSAGE, ({ message, chatId, type }) => {
+  socket.on(ACTIONS.ADMIN_SENT_MESSAGE, async ({ message, chatId, type }) => {
     const adminId = userSocketMap[socket.id];
     console.log("Admin ", adminId, " Sent Message to Chat: ", chatId);
 
     // add the given message to message DB abd chat DB
+    const newMessage = await Message.create({
+      content: message,
+      type: type,
+    });
+
+    if (message) {
+      const chat = await Chat.findByIdAndUpdate(chatId, {
+        $push: {
+          messageList: newMessage._id,
+        },
+      });
+    }
 
     socket.to(chatId).emit(ACTIONS.CLIENT_RECIEVE_MESSAGE, { message, type });
   });

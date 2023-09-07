@@ -6,7 +6,7 @@ const fetchChat = async (req, res) => {
       return res.json({ message: "incorect json body" });
     }
 
-    const chat = await Chat.findById(req.body.chatId);
+    const chat = await Chat.findById(req.body.chatId).populate("messageList");
 
     if (chat) {
       return res.status(200).json({
