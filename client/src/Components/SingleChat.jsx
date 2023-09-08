@@ -2,7 +2,10 @@
 
 const SingleChat = ({ messageList, bottomRef }) => {
   return (
-    <div id="box" className="absolute top-0 bg-[#2a3e3b] w-full pb-[5rem] p-2 pt-[1rem] h-[90vh] overflow-y-scroll">
+    <div
+      id="box"
+      className="absolute top-0 bg-[#2a3e3b] w-full pb-[5rem] p-2 pt-[1rem] h-[90vh] overflow-y-scroll"
+    >
       {messageList?.map((message) => (
         <h2
           className={`${
@@ -15,7 +18,7 @@ const SingleChat = ({ messageList, bottomRef }) => {
           {message.content}
         </h2>
       ))}
-      <div ref={bottomRef}></div>
+      <div ref={bottomRef} className="mt-[2rem]"></div>
     </div>
   );
 };

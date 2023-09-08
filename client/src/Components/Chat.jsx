@@ -33,13 +33,14 @@ const Chat = ({
       adminId: admin._id,
     });
     setMessage("");
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   // scroll behaviour
   useEffect(() => {
     console.log("Scroll");
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messageListRef]);
+  }, [messageList]);
 
   if (!messageList) return;
 
@@ -62,7 +63,7 @@ const Chat = ({
               {message.content}
             </h2>
           ))}
-          <div ref={bottomRef}></div>
+          <div ref={bottomRef} className="mt-[2rem]"></div>
         </div>
 
         <form

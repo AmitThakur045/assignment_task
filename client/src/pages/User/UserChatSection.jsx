@@ -55,6 +55,7 @@ const UserChatSection = () => {
       type: "CLIENT",
       clientId: client._id,
     });
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
     setMessage("");
   };
 
@@ -87,6 +88,7 @@ const UserChatSection = () => {
             };
 
             setMessageList((prev) => [...prev, obj]);
+            bottomRef.current?.scrollIntoView({ behavior: "smooth" });
           }
         );
       };
@@ -116,7 +118,7 @@ const UserChatSection = () => {
 
         <form
           onSubmit={handleMessageSend}
-          className="absolute -bottom-4 py-2 bg-[#1c312e] flex gap-2 items-center justify-center w-full px-2"
+          className="absolute -bottom-1 py-2 bg-[#1c312e] flex gap-2 items-center justify-center w-full px-2"
         >
           <input
             type="text"

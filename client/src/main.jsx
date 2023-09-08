@@ -34,7 +34,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <Route
         path="/user/:chatId"
         element={
-          <ProtectedRoute person="admin">
+          <ProtectedRoute person="user">
             <UserChatSection />{" "}
           </ProtectedRoute>
         }
