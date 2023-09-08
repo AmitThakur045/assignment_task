@@ -1,5 +1,7 @@
 # assignment_task
-A simple real-time chat application implementation using Socket.io, Node and React.
+A real-time chat application implementation using Socket.io, Node, and React optimized to evenly distribute the Clients among Admins.
+
+![Screenshot of demo](./screenshots/photo1.PNG)
 
 ## Setup and run
 1. Clone the Repository: Use the following command to clone the OptySys repository to your local machine:
